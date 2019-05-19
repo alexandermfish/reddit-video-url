@@ -1,0 +1,6 @@
+  {
+    "name": "Reddit Video URL",
+    "version": "1.0",
+    "description": "Opens a reddit video on it's own page without the comments",
+    "manifest_version": 2
+  }
