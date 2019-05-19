@@ -2,5 +2,10 @@
     "name": "Reddit Video URL",
     "version": "1.0",
     "description": "Opens a reddit video on it's own page without the comments",
+    "permissions": ["storage","contextMenus"],
+    "background": {
+      "scripts": ["eventPage.js"],
+      "persistent": false
+    },
     "manifest_version": 2
   }
