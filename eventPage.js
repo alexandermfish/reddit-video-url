@@ -1,16 +1,9 @@
-
-
 var showForPages = ["*://www.reddit.com/r/*/comments/*"];
-
-var vidURL="www.blackle.com"
-var jsonPage = "https://www.google.com"
-
 
 
 function callback(data){
   console.log(data);
 }
-
 
 var contextMenuItem ={
   "id": "getVid",
@@ -22,24 +15,26 @@ chrome.contextMenus.create(contextMenuItem);
 chrome.contextMenus.onClicked.addListener(function(clickData){
   if(clickData.menuItemId == "getVid"){
     chrome.tabs.getSelected(null,function(tab) {
-      var tablink = tab.url;
-      jsonPage = tablink + ".json"
-      requestVid()
+      let currentTabUrl = tab.url;
+      let vidURL=""
+      jsonPage = currentTabUrl + ".json"
+      requestVid(jsonPage)
+      .then(url => {
       chrome.tabs.create({url: vidURL}, callback);
+      });
     });
   }
 })
 
 
 
-function requestVid() {
-  fetch(jsonPage)
-  .then(response => response.json())
-  .then(data => {
-    var redditJSON = JSON.parse();
-    vidURL = redditJSON.fallback_url;
-    console.log(data) // Prints result from `response.json()` in getRequest
-  })
-  .catch(error => console.error(error))
-  
+async function requestVid(jsonPage) {
+  let response = await fetch(jsonPage);
+  let data = await response.json();
+  console.log("got here")
+  console.log(data)
+  return data.fallback_url;
+
+
+
 }
