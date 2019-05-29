@@ -2,7 +2,12 @@
     "name": "Video URL for reddit",
     "version": "1.0",
     "description": "Opens a reddit video on it's own page without the comments",
-    "permissions": ["storage","contextMenus","tabs"],
+    "permissions": [
+      "storage",
+      "contextMenus",
+      "tabs",
+      "*://www.reddit.com/r/*/comments/*"
+    ],
     "background": {
       "scripts": ["eventPage.js"],
       "persistent": false

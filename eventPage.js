@@ -16,11 +16,15 @@ chrome.contextMenus.onClicked.addListener(function(clickData){
   if(clickData.menuItemId == "getVid"){
     chrome.tabs.getSelected(null,function(tab) {
       let currentTabUrl = tab.url;
-      let vidURL=""
-      jsonPage = currentTabUrl + ".json"
-      requestVid(jsonPage)
-      .then(url => {
-      chrome.tabs.create({url: vidURL}, callback);
+      let vidURLObject="";
+      let vidURL ="";
+      jsonPage = currentTabUrl + ".json";
+      console.log(jsonPage);
+      
+      vidURLObject = requestVid(jsonPage)
+      .then(()=> {
+        vidURL = String(vidURLObject);
+        chrome.tabs.create({url: vidURL}, callback);
       });
     });
   }
@@ -31,8 +35,6 @@ chrome.contextMenus.onClicked.addListener(function(clickData){
 async function requestVid(jsonPage) {
   let response = await fetch(jsonPage);
   let data = await response.json();
-  console.log("got here")
-  console.log(data)
   return data.fallback_url;
 
 
