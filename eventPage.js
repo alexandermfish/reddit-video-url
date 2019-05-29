@@ -16,27 +16,22 @@ chrome.contextMenus.onClicked.addListener(function(clickData){
   if(clickData.menuItemId == "getVid"){
     chrome.tabs.getSelected(null,function(tab) {
       let currentTabUrl = tab.url;
-      let vidURLObject="";
       let vidURL ="";
-      jsonPage = currentTabUrl + ".json";
-      console.log(jsonPage);
-      
-      vidURLObject = requestVid(jsonPage)
-      .then(()=> {
-        vidURL = String(vidURLObject);
+      let jsonurl = currentTabUrl + ".json";
+      fetch(jsonurl)
+      .then(response => response.json())
+      .then((out) => {
+
+        vidURL = out[0].data.children[0].data.media.reddit_video.fallback_url;
         chrome.tabs.create({url: vidURL}, callback);
-      });
+
+      })
+      .catch(err => { throw err });
     });
   }
 })
 
 
 
-async function requestVid(jsonPage) {
-  let response = await fetch(jsonPage);
-  let data = await response.json();
-  return data.fallback_url;
 
 
-
-}
