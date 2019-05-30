@@ -1,6 +1,5 @@
 var showForPages = ["*://www.reddit.com/r/*/comments/*"];
 
-
 function callback(data){
   console.log(data);
 }
@@ -12,24 +11,21 @@ var contextMenuItem ={
 };
 
 chrome.contextMenus.create(contextMenuItem);
-chrome.contextMenus.onClicked.addListener(function(clickData){
-  if(clickData.menuItemId == "getVid"){
-    chrome.tabs.getSelected(null,function(tab) {
+chrome.contextMenus.onClicked.addListener(function(clickData) {
+  if(clickData.menuItemId === "getVid") {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
       let currentTabUrl = tab.url;
-      let vidURL ="";
-      let jsonurl = currentTabUrl + ".json";
-      fetch(jsonurl)
+      let jsonUrl = currentTabUrl + ".json";
+      fetch(jsonUrl)
       .then(response => response.json())
       .then((out) => {
-
-        vidURL = out[0].data.children[0].data.media.reddit_video.fallback_url;
+        let vidURL = out[0].data.children[0].data.media.reddit_video.fallback_url;
         chrome.tabs.create({url: vidURL}, callback);
-
       })
       .catch(err => { throw err });
     });
   }
-})
+});
 
 
 
