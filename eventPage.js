@@ -1,10 +1,10 @@
 var showForPages = ["*://www.reddit.com/r/*/comments/*"];
 
-function callback(data){
+function callback(data) {
   console.log(data);
 }
 
-var contextMenuItem ={
+var contextMenuItem = {
   "id": "getVid",
   "title": "Video Url for reddit",
   "documentUrlPatterns":showForPages
